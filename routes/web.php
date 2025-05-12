@@ -38,6 +38,7 @@ use App\Http\Middleware\Localization;
 use App\Livewire\Planning\Databases\DatabaseManager;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\TranslationController;
 
 //analisar esta 2 próximas linhas
@@ -57,6 +58,16 @@ use App\Http\Controllers\ThemeController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/chat/{projeto_id}', [ChatController::class, 'index']);
+    Route::get('/chat/{projeto_id}/messages', [ChatController::class, 'fetchMessages']);
+    Route::post('/chat/{projeto_id}/messages', [ChatController::class, 'sendMessage']);
+});
+
+
 
 Route::middleware(Localization::class)->get('/', function () {
     return view('welcome');
